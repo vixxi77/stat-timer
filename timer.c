@@ -13,6 +13,7 @@ void* startTimer(void *code){
 	struct tm *startTime;
 	startTime = localtime(&start);
 
+	struct tm *endTime;
 
 	float timeSpent;
 	
@@ -21,21 +22,24 @@ void* startTimer(void *code){
 	}
 
 	while(true){
+		
+		time_t current = time(NULL);
 
 		if(*(int*) code == 7){
 			printf("Im trying to exit maannnn!! \n");
+			endTime = localtime(&current);
 			break;
 		}
 
-		time_t current = time(NULL);
 		timeSpent = (float)(current - start);	
 		struct timespec timesleep = { 1, 0L };
 	
 
-		printf(" %.1f", timeSpent);
+		printf("\r %.1f", timeSpent);
 		fflush(stdout);
 		nanosleep(&timesleep, NULL);
 	}
+	printf("Ended: %s \n", asctime(endTime));	
 	pthread_exit(NULL);	
 }
 /*
