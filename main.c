@@ -52,11 +52,12 @@ void initXKeys(){
 };
 
 void main(){
-	
+	int toggle = 0;	
 	initXKeys();
 
 	printf("\t\t\tChoose an activity: \n");
-	printf("[CTRL+SHIFT+F1]Start The Timer \t [CTRL+SHIFT+F3]Stop The Timer \t [CTRL+SHIFT+W] Open/Close Timer Window");
+	printf("[CTRL+SHIFT+F1]Start The Timer \t [CTRL+SHIFT+F3]Stop The Timer \t [CTRL+SHIFT+W] Open/Close Timer Window \n");
+	fflush(stdout);
 
 	int code = 0;	
 	int option;
@@ -72,8 +73,15 @@ void main(){
 		if(event.type == KeyPress && (event.xkey.state & modifiers) == modifiers){
 			switch(symbol){
 				case XK_W: 
-					 printf("Open window \n");
-					 break;
+					if(toggle == 0){
+						 printf("Close window \n");
+						 toggle = 1;
+						 break;
+					}else{
+						printf("Open window \n");
+						toggle = 0;
+						break;
+					}
 				case XK_F1:
 					 code = START_CODE;
 					 pthread_create(&thread1, NULL, startTimer, (void*)&code);

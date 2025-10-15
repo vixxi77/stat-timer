@@ -26,8 +26,14 @@ void* startTimer(void *code){
 		time_t current = time(NULL);
 
 		if(*(int*) code == 7){
-			printf("Im trying to exit maannnn!! \n");
+			printf("Exiting \n");
 			endTime = localtime(&current);
+			int h = (timeSpent / 3600);
+			int m = (timeSpent - (3600 * h)) / 60;
+			int s = (timeSpent - (3600 * h) - (m * 60));
+			printf("Ended: %s \n Total time spent: %d:%d:%d \n", asctime(endTime), h, m, s);	
+			fflush(stdout);
+			pthread_exit(NULL);
 			break;
 		}
 
@@ -39,12 +45,4 @@ void* startTimer(void *code){
 		fflush(stdout);
 		nanosleep(&timesleep, NULL);
 	}
-	printf("Ended: %s \n", asctime(endTime));	
-	pthread_exit(NULL);	
 }
-/*
-		h = (timePassed /3600);
-		m = (timePassed - (3600 * h)) / 60;
-		s = (timePassed - (3600 * h) - (m * 60));
-		printf("Youve done %d H: %d M: %d S  of this activity \n", h, m, s);	
-*/
