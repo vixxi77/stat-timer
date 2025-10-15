@@ -44,10 +44,12 @@ void main(){
 	XSelectInput(display, root, KeyPressMask);
 	for(;;){
 		 XNextEvent(display, &event);
-		 KeySym symbol = XLookupKeysym(&event.xkey, 0);
+		 KeySym symbol = XLookupKeysym(&event.xkey, 1); //So the index 1 says take in to account capitalization?? yeah have no idea,
+							       //but for consistency ill keep it this way, just make sure caps are off
+							       //when trying hotkeys
 		 if(event.type == KeyPress && (event.xkey.state & modifiers) == modifiers){
 			 switch(symbol){
-				 case XK_W:
+				 case XK_W: 
 					 ++keyPressCounter;
 					 printf("Open window; Total keypresses:  %d \n", keyPressCounter);
 					 break;
