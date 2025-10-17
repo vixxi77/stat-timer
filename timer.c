@@ -1,48 +1,70 @@
 #include <time.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <pthread.h>
-#define MAX_SIZE 64
-//TODO: make this accept shit like idk, activities so it can be modular 
-//and also maybe a value to stop recording
-void* startTimer(void *code){
+//#include <pthread.h>
 
-	printf("Press key to stop recording \n");
+typedef struct {
+	int id;
+	double  totalTime;
+	time_t startStamp;
+} Activity;
 
-	time_t start = time(NULL);
-	struct tm *startTime;
-	startTime = localtime(&start);
+void startTimer(int activityId);
+void stopTimer(void);
+void renderTimer(void);
+void updateTimer(void);
+static Activity current = {0};
+static int timerRunning = 0;
+static double lastTime = 0.0;
 
-	struct tm *endTime;
 
-	float timeSpent;
+static double getCurrentTime(){
+
+	struct timespec ts;
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return ts.tv_sec + ts.tv_nsec / 1e9;
+};
+
+void startTimer(int activityId){
 	
-	if(*(int*) code != 7){	
-		printf("Activity started: %s \n", asctime(startTime));	
+	if(timerRunning){
+		stopTimer();
 	}
 
-	while(true){
-		
-		time_t current = time(NULL);
+	timerRunning = 1;
+	current.id = activityId;
+	current.totalTime = 0.0;
+	lastTime = getCurrentTime();
+	current.startStamp = time(NULL);	
 
-		if(*(int*) code == 7){
-			printf("Exiting \n");
-			endTime = localtime(&current);
-			int h = (timeSpent / 3600);
-			int m = (timeSpent - (3600 * h)) / 60;
-			int s = (timeSpent - (3600 * h) - (m * 60));
-			printf("Ended: %s \n Total time spent: %d:%d:%d \n", asctime(endTime), h, m, s);	
-			fflush(stdout);
-			pthread_exit(NULL);
-			break;
-		}
-
-		timeSpent = (float)(current - start);	
-		struct timespec timesleep = { 1, 0L };
-	
-
-		printf("\r %.1f", timeSpent);
-		fflush(stdout);
-		nanosleep(&timesleep, NULL);
-	}
+	printf("Activity: %d, started at: %s \n", activityId, asctime(localtime(&current.startStamp)));
 }
+
+void stopTimer(){
+
+	if(!timerRunning) return;
+
+	timerRunning = 0;
+
+	time_t endStamp = time(NULL);
+
+	printf("Activity %d stopped at: %s \n", current.id, asctime(localtime(&endStamp)));
+	printf("Total time spent: %.2f \n", current.totalTime);
+}
+
+void updateTimer(){
+	if(!timerRunning) return;
+
+	double now = getCurrentTime();
+	double delta = now - lastTime;
+	lastTime = now;
+	current.totalTime += delta;
+}
+
+void renderTimer(){
+
+	if(!timerRunning) return;
+	
+	printf("\rActivity %d running: %.2f ", current.id, current.totalTime);
+	fflush(stdout);
+};

@@ -5,8 +5,8 @@
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
 
-#define START_CODE 1
-#define STOP_CODE 7
+#define PROGRAMMING_C 1
+#define LOONIX_WORK 7
 
 /*
  * I dont know why this even works first try flawlesly lol, ts dumb ahh X11 api
@@ -62,42 +62,46 @@ void main(){
 	int code = 0;	
 	int option;
 
-	pthread_t thread1;
+	//pthread_t thread1;
 
 	for(;;){
-
-		XNextEvent(display, &event);
-		KeySym symbol = XLookupKeysym(&event.xkey, 1); //So the index 1 says take in to account capitalization?? yeah have no idea,
-						       //but for consistency ill keep it this way, just make sure caps are off
-						       //when trying hotkeys
-		if(event.type == KeyPress && (event.xkey.state & modifiers) == modifiers){
-			switch(symbol){
-				case XK_W: 
-					if(toggle == 0){
-						 printf("Close window \n");
-						 toggle = 1;
+		while(XPending(display)){
+			XNextEvent(display, &event);
+			KeySym symbol = XLookupKeysym(&event.xkey, 1); //So the index 1 says take in to account capitalization?? yeah have no idea,
+							       //but for consistency ill keep it this way, just make sure caps are off
+							       //when trying hotkeys
+			if(event.type == KeyPress && (event.xkey.state & modifiers) == modifiers){
+				switch(symbol){
+					case XK_W: 
+						if(toggle == 0){
+							 printf("Close window \n");
+							 toggle = 1;
+							 break;
+						}else{
+							printf("Open window \n");
+							toggle = 0;
+							break;
+						}
+					case XK_F1:
+						 //pthread_create(&thread1, NULL, startTimer, (void*)&code);
+						 startTimer(PROGRAMMING_C);
 						 break;
-					}else{
-						printf("Open window \n");
-						toggle = 0;
-						break;
-					}
-				case XK_F1:
-					 code = START_CODE;
-					 pthread_create(&thread1, NULL, startTimer, (void*)&code);
-					 break;
-				case XK_F2:
-					 printf("Activty 2 not defined \n");
-					 break;
-				case XK_F3:
-					 code = STOP_CODE;
-					 pthread_join(thread1, NULL);
-					 code = 0;
-					 break;
-				default:
-					 break;
+					case XK_F2:
+						 startTimer(LOONIX_WORK);
+						 break;
+					case XK_F3:
+						 //pthread_join(thread1, NULL);
+						 stopTimer();
+						 break;
+					default:
+						 break;
+				}
 			}
 		}
+		updateTimer();
+		renderTimer();
+		struct timespec sleep = { 1 , 10 * 100 * 1000};
+		nanosleep(&sleep, NULL);		
 	}
 	XCloseDisplay(display);
 }
