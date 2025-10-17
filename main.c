@@ -4,9 +4,12 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
+#include "window.h"
 
 #define PROGRAMMING_C 1
 #define LOONIX_WORK 7
+#define OPEN 1
+#define CLOSE 0
 
 /*
  * I dont know why this even works first try flawlesly lol, ts dumb ahh X11 api
@@ -63,7 +66,7 @@ void main(){
 	int option;
 
 	//pthread_t thread1;
-
+	initWindow();
 	for(;;){
 		while(XPending(display)){
 			XNextEvent(display, &event);
@@ -75,10 +78,12 @@ void main(){
 					case XK_W: 
 						if(toggle == 0){
 							 printf("Close window \n");
+							 actionWindow(CLOSE);
 							 toggle = 1;
 							 break;
 						}else{
 							printf("Open window \n");
+							actionWindow(OPEN);
 							toggle = 0;
 							break;
 						}
@@ -100,7 +105,7 @@ void main(){
 		}
 		updateTimer();
 		renderTimer();
-		struct timespec sleep = { 1 , 10 * 100 * 1000};
+		struct timespec sleep = { 1 , 10 * 100 * 1000 };
 		nanosleep(&sleep, NULL);		
 	}
 	XCloseDisplay(display);

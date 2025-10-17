@@ -67,4 +67,4 @@ void renderTimer(){
 	
 	printf("\rActivity %d running: %.2f ", current.id, current.totalTime);
 	fflush(stdout);
-};
+}
