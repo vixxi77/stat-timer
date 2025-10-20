@@ -76,6 +76,7 @@ void main(){
 
 	initWindow();
 	initRenderer();
+	initText();
 
 	while(running){
 		while(XPending(display)){

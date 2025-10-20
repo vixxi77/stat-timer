@@ -7,6 +7,8 @@ void actionWindow(int actionId);
 void closeWindow(void);
 void initRenderer(void);
 void renderSDLWindow(void);
+void initText(void);
+void renderSDLText(void);
 
 
 #endif

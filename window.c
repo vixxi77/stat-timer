@@ -1,14 +1,21 @@
 #include <SDL2/SDL.h>
 #include "window.h"
 #include <stdio.h>
+#include <SDL2/SDL_ttf.h>
 
 #define WIDTH 300
 #define HEIGHT 100
 #define HORIZONTAL_POS 1618
-#define VERTICAL_POS 20
+#define VERTICAL_POS 10
+//1618 5 300 100
 
 SDL_Window *window;
 SDL_Renderer *renderer;
+SDL_Surface *surface;
+TTF_Font *font;
+SDL_Texture *texture;
+SDL_Color White = {255, 255, 255};
+SDL_Rect textRect;
 
 int window_open = 0;
 
@@ -49,5 +56,28 @@ void closeWindow(){
 
 void renderSDLWindow(){
 	SDL_RenderClear(renderer);
+	renderSDLText();
 	SDL_RenderPresent(renderer);
+}
+
+void initText(){
+	if(TTF_Init() == -1){
+	       	printf("ttf failure \n");
+	}else{
+		printf("ttf good \n");
+	}
+	font = TTF_OpenFont("FSEX300.ttf", 15);
+}
+
+void renderSDLText(){
+	surface = TTF_RenderText_Solid(font, "TEST", White);
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+	textRect.x = 0;
+	textRect.y = 0;
+	textRect.w = 100;
+	textRect.h = 100;
+
+	SDL_RenderCopy(renderer, texture, NULL, &textRect);
+	SDL_FreeSurface(surface);
 }
