@@ -15,14 +15,18 @@ SDL_Surface *surface;
 TTF_Font *font;
 SDL_Texture *texture;
 SDL_Color White = {255, 255, 255};
+SDL_Color Red = {255, 0, 0};
 SDL_Rect textRect;
+SDL_Color MAIN_COLOR;
+
+char *activity;
 
 int window_open = 0;
 
 void initWindow(){
 	SDL_Init(SDL_INIT_VIDEO);
 	window = SDL_CreateWindow("Timer", HORIZONTAL_POS, VERTICAL_POS, WIDTH, HEIGHT, 0);
-	//SDL_SetWindowBordered(window, SDL_FALSE);
+	SDL_SetWindowBordered(window, SDL_FALSE);
 }
 
 void initRenderer(){
@@ -70,14 +74,25 @@ void initText(){
 }
 
 void renderSDLText(){
-	surface = TTF_RenderText_Solid(font, "TEST", White);
+	if(activity == NULL){
+		activity = "NO ACTIVITY";
+		MAIN_COLOR = Red;
+	}else if(activity != "NO ACTIVITY" && activity != NULL){
+		MAIN_COLOR = White;
+	}
+
+	surface = TTF_RenderText_Solid(font, activity, MAIN_COLOR);
 	texture = SDL_CreateTextureFromSurface(renderer, surface);
 
 	textRect.x = 0;
 	textRect.y = 0;
-	textRect.w = 100;
-	textRect.h = 100;
+	textRect.w = 200;
+	textRect.h = 20;
 
 	SDL_RenderCopy(renderer, texture, NULL, &textRect);
 	SDL_FreeSurface(surface);
+}
+
+void setSDLActivity(char *activityName){
+	activity = activityName;
 }

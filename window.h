@@ -9,6 +9,7 @@ void initRenderer(void);
 void renderSDLWindow(void);
 void initText(void);
 void renderSDLText(void);
+void setSDLActivity(char *activityName);
 
 
 #endif

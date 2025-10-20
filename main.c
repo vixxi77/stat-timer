@@ -6,8 +6,8 @@
 #include <X11/keysym.h>
 #include "window.h"
 
-#define PROGRAMMING_C 1
-#define LOONIX_WORK 7
+#define ACTIVITY_ONE "Programming C"
+#define ACTIVITY_TWO "Loonix Work"
 #define OPEN 1
 #define CLOSE 0
 
@@ -100,10 +100,10 @@ void main(){
 						}
 					case XK_F1:
 						 //pthread_create(&thread1, NULL, startTimer, (void*)&code);
-						 startTimer(PROGRAMMING_C);
+						 startTimer(ACTIVITY_ONE);
 						 break;
 					case XK_F2:
-						 startTimer(LOONIX_WORK);
+						 startTimer(ACTIVITY_TWO);
 						 break;
 					case XK_F3:
 						 //pthread_join(thread1, NULL);

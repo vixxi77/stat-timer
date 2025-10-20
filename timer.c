@@ -1,15 +1,16 @@
 #include <time.h>
 #include <stdio.h>
 #include <unistd.h>
+#include "window.h"
 //#include <pthread.h>
 
 typedef struct {
-	int id;
+	char *activityName;
 	double  totalTime;
 	time_t startStamp;
 } Activity;
 
-void startTimer(int activityId);
+void startTimer(char *activityString);
 void stopTimer(void);
 void renderTimer(void);
 void updateTimer(void);
@@ -25,19 +26,20 @@ static double getCurrentTime(){
 	return ts.tv_sec + ts.tv_nsec / 1e9;
 };
 
-void startTimer(int activityId){
+void startTimer(char *activityString){
 	
 	if(timerRunning){
 		stopTimer();
 	}
 
 	timerRunning = 1;
-	current.id = activityId;
+	current.activityName = activityString;
 	current.totalTime = 0.0;
 	lastTime = getCurrentTime();
 	current.startStamp = time(NULL);	
+	setSDLActivity(current.activityName);
 
-	printf("Activity: %d, started at: %s \n", activityId, asctime(localtime(&current.startStamp)));
+	printf("Activity: %s, started at: %s \n", current.activityName, asctime(localtime(&current.startStamp)));
 }
 
 void stopTimer(){
@@ -45,10 +47,11 @@ void stopTimer(){
 	if(!timerRunning) return;
 
 	timerRunning = 0;
+	setSDLActivity(NULL);
 
 	time_t endStamp = time(NULL);
 
-	printf("Activity %d stopped at: %s \n", current.id, asctime(localtime(&endStamp)));
+	printf("Activity %s stopped at: %s \n", current.activityName, asctime(localtime(&endStamp)));
 	printf("Total time spent: %.2f \n", current.totalTime);
 }
 
@@ -65,6 +68,6 @@ void renderTimer(){
 
 	if(!timerRunning) return;
 	
-	printf("\rActivity %d running: %.2f ", current.id, current.totalTime);
+	printf("\rActivity %s running: %.2f ", current.activityName, current.totalTime);
 	fflush(stdout);
 }
