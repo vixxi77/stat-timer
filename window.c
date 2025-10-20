@@ -13,6 +13,7 @@ int window_open = 0;
 void initWindow(){
 	SDL_Init(SDL_INIT_VIDEO);
 	window = SDL_CreateWindow("Timer", HORIZONTAL_POS, VERTICAL_POS, WIDTH, HEIGHT, 0);
+	SDL_SetWindowBordered(window, SDL_FALSE);
 }
 
 void actionWindow(int actionId){
@@ -31,15 +32,11 @@ void actionWindow(int actionId){
 }
 
 void openWindow(){
-	printf("opening window! \n");
 	SDL_ShowWindow(window);
-	printf("window running! \n");
 }
 
 void closeWindow(){
-	printf("closing window! \n");
 	SDL_HideWindow(window);
-	printf("WINDOW CLOSED! \n");
 }
 	
 

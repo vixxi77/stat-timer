@@ -20,10 +20,14 @@
 
 Display*    display;
 Window      root;
-XEvent      event; unsigned int    modifiers; int             keycode_open_window;     
+XEvent      event;
+
+unsigned int    modifiers;
+int             keycode_open_window;     
 int 		keycode_first_activity;	
 int 		keycode_second_activity;	
 int 		keycode_third_activity;	
+int		keycode_terminate_program;
 Window          grab_window;  
 Bool            owner_events; 
 int             pointer_mode; 
@@ -31,24 +35,28 @@ int             keyboard_mode;
 
 void initXKeys(){
 
-	display     = XOpenDisplay(0);
-	root    = DefaultRootWindow(display);
+	display                     = XOpenDisplay(0);
+	root                        = DefaultRootWindow(display);
 
-	modifiers       = ControlMask | ShiftMask; //Ctrl + Shift
-	keycode_open_window         = XKeysymToKeycode(display,XK_W);// +W
+	modifiers                   = ControlMask | ShiftMask; 
+	keycode_open_window         = XKeysymToKeycode(display,XK_W);
 	keycode_first_activity	    = XKeysymToKeycode(display, XK_F1);
 	keycode_second_activity	    = XKeysymToKeycode(display, XK_F2);
 	keycode_third_activity	    = XKeysymToKeycode(display, XK_F3);
+	keycode_terminate_program   = XKeysymToKeycode(display,XK_X);
 
-	grab_window     =  root;
-	owner_events    = False;
-	pointer_mode    = GrabModeAsync;
-	keyboard_mode   = GrabModeAsync;
+	grab_window                 = root;
+	owner_events                = False;
+	pointer_mode                = GrabModeAsync;
+	keyboard_mode               = GrabModeAsync;
 
 	XGrabKey(display, keycode_open_window, modifiers, grab_window, owner_events, pointer_mode, keyboard_mode);
 	XGrabKey(display, keycode_first_activity, modifiers, grab_window, owner_events, pointer_mode, keyboard_mode);
 	XGrabKey(display, keycode_second_activity, modifiers, grab_window, owner_events, pointer_mode, keyboard_mode);
 	XGrabKey(display, keycode_third_activity, modifiers, grab_window, owner_events, pointer_mode, keyboard_mode);
+	XGrabKey(display, keycode_terminate_program, modifiers, grab_window, owner_events, pointer_mode, keyboard_mode);
+
+
 
 
 	XSelectInput(display, root, KeyPressMask);
@@ -56,6 +64,7 @@ void initXKeys(){
 
 void main(){
 	int toggle = 0;	
+	int running = 1;
 	initXKeys();
 
 	printf("\t\t\tChoose an activity: \n");
@@ -67,7 +76,7 @@ void main(){
 
 	//pthread_t thread1;
 	initWindow();
-	for(;;){
+	while(running){
 		while(XPending(display)){
 			XNextEvent(display, &event);
 			KeySym symbol = XLookupKeysym(&event.xkey, 1); //So the index 1 says take in to account capitalization?? yeah have no idea,
@@ -97,6 +106,10 @@ void main(){
 					case XK_F3:
 						 //pthread_join(thread1, NULL);
 						 stopTimer();
+						 break;
+					case XK_X:
+						 printf("terminating!");
+						 running = 0;
 						 break;
 					default:
 						 break;
