@@ -11,15 +11,21 @@
 
 SDL_Window *window;
 SDL_Renderer *renderer;
-SDL_Surface *surface;
+SDL_Surface *activity_surface;
 TTF_Font *font;
-SDL_Texture *texture;
+SDL_Texture *activity_texture;
 SDL_Color White = {255, 255, 255};
 SDL_Color Red = {255, 0, 0};
-SDL_Rect textRect;
+SDL_Rect activityRect;
+SDL_Rect timerRect;
 SDL_Color MAIN_COLOR;
+SDL_Texture *timer_texture;
+SDL_Surface *timer_surface;
+
+
 
 char *activity;
+char *timer;
 
 int window_open = 0;
 
@@ -60,7 +66,8 @@ void closeWindow(){
 
 void renderSDLWindow(){
 	SDL_RenderClear(renderer);
-	renderSDLText();
+	renderSDLActivity();
+	renderSDLTimer();
 	SDL_RenderPresent(renderer);
 }
 
@@ -73,7 +80,7 @@ void initText(){
 	font = TTF_OpenFont("FSEX300.ttf", 15);
 }
 
-void renderSDLText(){
+void renderSDLActivity(){
 	if(activity == NULL){
 		activity = "NO ACTIVITY";
 		MAIN_COLOR = Red;
@@ -81,18 +88,35 @@ void renderSDLText(){
 		MAIN_COLOR = White;
 	}
 
-	surface = TTF_RenderText_Solid(font, activity, MAIN_COLOR);
-	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	activity_surface = TTF_RenderText_Solid(font, activity, MAIN_COLOR);
+	activity_texture = SDL_CreateTextureFromSurface(renderer, activity_surface);
 
-	textRect.x = 0;
-	textRect.y = 0;
-	textRect.w = 200;
-	textRect.h = 20;
+	activityRect.x = 0;
+	activityRect.y = 0;
+	activityRect.w = 200;
+	activityRect.h = 20;
 
-	SDL_RenderCopy(renderer, texture, NULL, &textRect);
-	SDL_FreeSurface(surface);
+	SDL_RenderCopy(renderer, activity_texture, NULL, &activityRect);
+	SDL_FreeSurface(activity_surface);
+}
+
+void renderSDLTimer(){
+	timer_surface = TTF_RenderText_Solid(font, timer, MAIN_COLOR);
+	timer_texture = SDL_CreateTextureFromSurface(renderer, timer_surface);
+
+	timerRect.x = 50;
+	timerRect.y = 50;
+	timerRect.w = 50;
+	timerRect.h = 50;
+
+	SDL_RenderCopy(renderer, timer_texture, NULL, &timerRect);
+	SDL_FreeSurface(timer_surface);
 }
 
 void setSDLActivity(char *activityName){
 	activity = activityName;
+}
+
+void setSDLTimer(char *activityTimer){
+	timer = activityTimer;
 }

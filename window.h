@@ -8,8 +8,10 @@ void closeWindow(void);
 void initRenderer(void);
 void renderSDLWindow(void);
 void initText(void);
-void renderSDLText(void);
 void setSDLActivity(char *activityName);
+void setSDLTimer(char *actvityTimer);
+void renderSDLActivity(void);
+void renderSDLTimer(void);
 
 
 #endif

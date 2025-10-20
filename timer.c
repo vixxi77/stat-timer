@@ -1,4 +1,5 @@
 #include <time.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include "window.h"
@@ -6,7 +7,7 @@
 
 typedef struct {
 	char *activityName;
-	double  totalTime;
+	int  totalTime;
 	time_t startStamp;
 } Activity;
 
@@ -18,6 +19,7 @@ static Activity current = {0};
 static int timerRunning = 0;
 static double lastTime = 0.0;
 
+char buffer[12];
 
 static double getCurrentTime(){
 
@@ -34,7 +36,7 @@ void startTimer(char *activityString){
 
 	timerRunning = 1;
 	current.activityName = activityString;
-	current.totalTime = 0.0;
+	current.totalTime = 0;
 	lastTime = getCurrentTime();
 	current.startStamp = time(NULL);	
 	setSDLActivity(current.activityName);
@@ -61,13 +63,16 @@ void updateTimer(){
 	double now = getCurrentTime();
 	double delta = now - lastTime;
 	lastTime = now;
-	current.totalTime += delta;
+	current.totalTime += (int)delta;
 }
 
 void renderTimer(){
 
 	if(!timerRunning) return;
-	
-	printf("\rActivity %s running: %.2f ", current.activityName, current.totalTime);
-	fflush(stdout);
+	sprintf(buffer, "%d", current.totalTime);
+	setSDLTimer(buffer);
+	//printf("\rActivity %s running: %s ", current.activityName, buffer);
+	//fflush(stdout);
 }
+
+

@@ -5,7 +5,7 @@
 
 typedef struct {
 	char *activityName;
-	double totalTime;
+	int totalTime;
 	time_t startStamp;
 } Activity;
 
