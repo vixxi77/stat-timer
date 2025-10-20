@@ -74,8 +74,9 @@ void main(){
 	int code = 0;	
 	int option;
 
-	//pthread_t thread1;
 	initWindow();
+	initRenderer();
+
 	while(running){
 		while(XPending(display)){
 			XNextEvent(display, &event);
@@ -108,7 +109,7 @@ void main(){
 						 stopTimer();
 						 break;
 					case XK_X:
-						 printf("terminating!");
+						 printf("terminating! \n");
 						 running = 0;
 						 break;
 					default:
@@ -118,6 +119,7 @@ void main(){
 		}
 		updateTimer();
 		renderTimer();
+		renderSDLWindow();
 		struct timespec sleep = { 1 , 10 * 100 * 1000 };
 		nanosleep(&sleep, NULL);		
 	}

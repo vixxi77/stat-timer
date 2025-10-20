@@ -5,6 +5,8 @@ void initWindow(void);
 void openWindow(void);
 void actionWindow(int actionId);
 void closeWindow(void);
+void initRenderer(void);
+void renderSDLWindow(void);
 
 
 #endif
