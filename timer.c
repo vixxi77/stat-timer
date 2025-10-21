@@ -71,8 +71,6 @@ void renderTimer(){
 	if(!timerRunning) return;
 	sprintf(buffer, "%d", current.totalTime);
 	setSDLTimer(buffer);
-	//printf("\rActivity %s running: %s ", current.activityName, buffer);
-	//fflush(stdout);
 }
 
 
