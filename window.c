@@ -104,8 +104,8 @@ void renderSDLTimer(){
 	timer_surface = TTF_RenderText_Solid(font, timer, MAIN_COLOR);
 	timer_texture = SDL_CreateTextureFromSurface(renderer, timer_surface);
 
-	timerRect.x = 50;
-	timerRect.y = 50;
+	timerRect.x = 25;
+	timerRect.y = 25;
 	timerRect.w = 50;
 	timerRect.h = 50;
 

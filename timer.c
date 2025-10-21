@@ -54,7 +54,7 @@ void stopTimer(){
 	time_t endStamp = time(NULL);
 
 	printf("Activity %s stopped at: %s \n", current.activityName, asctime(localtime(&endStamp)));
-	printf("Total time spent: %.2f \n", current.totalTime);
+	printf("Total time spent: %d \n", current.totalTime);
 }
 
 void updateTimer(){
@@ -64,6 +64,7 @@ void updateTimer(){
 	double delta = now - lastTime;
 	lastTime = now;
 	current.totalTime += (int)delta;
+	
 }
 
 void renderTimer(){
