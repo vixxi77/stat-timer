@@ -4,13 +4,15 @@
 #include <time.h>
 
 typedef struct {
+	int id;
 	char *activityName;
 	int totalTime;
 	time_t startStamp;
 } Activity;
 
-void startTimer(char *activityString);
+void startTimer(char *activityString, int activityId);
 void stopTimer();
 void updateTimer();
 void renderTimer();
+void saveTotalTime();
 #endif 

@@ -100,10 +100,10 @@ void main(){
 						}
 					case XK_F1:
 						 //pthread_create(&thread1, NULL, startTimer, (void*)&code);
-						 startTimer(ACTIVITY_ONE);
+						 startTimer(ACTIVITY_ONE, 0);
 						 break;
 					case XK_F2:
-						 startTimer(ACTIVITY_TWO);
+						 startTimer(ACTIVITY_TWO, 1);
 						 break;
 					case XK_F3:
 						 //pthread_join(thread1, NULL);
