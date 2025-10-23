@@ -22,8 +22,6 @@ SDL_Color MAIN_COLOR;
 SDL_Texture *timer_texture;
 SDL_Surface *timer_surface;
 
-
-
 char *activity;
 char *timer;
 
@@ -32,7 +30,7 @@ int window_open = 0;
 void initWindow(){
 	SDL_Init(SDL_INIT_VIDEO);
 	window = SDL_CreateWindow("Timer", HORIZONTAL_POS, VERTICAL_POS, WIDTH, HEIGHT, 0);
-	SDL_SetWindowBordered(window, SDL_FALSE);
+	//SDL_SetWindowBordered(window, SDL_FALSE);
 }
 
 void initRenderer(){
@@ -101,6 +99,7 @@ void renderSDLActivity(){
 }
 
 void renderSDLTimer(){
+
 	timer_surface = TTF_RenderText_Solid(font, timer, MAIN_COLOR);
 	timer_texture = SDL_CreateTextureFromSurface(renderer, timer_surface);
 

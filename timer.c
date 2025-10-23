@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include "window.h"
 #include "timer.h"
+//#include "vitaut1.h"
 //#include <pthread.h>
 
 #define MAX_ACTIVITIES 8
@@ -68,10 +69,13 @@ void updateTimer(){
 void renderTimer(){
 
 	if(!timerRunning) return;
+
 	sprintf(buffer, "%d", current.totalTime);
+	//char *seconds_str = itoa_vitaut_1(buffer, current.totalTimer);	
 	setSDLTimer(buffer);
+	
 }
 
 void saveTotalTime(){
-	activityIds[current.id] += current.totalTime;
+	activityIds[current.id] = current.totalTime;
 }
