@@ -11,6 +11,7 @@
 #define OPEN 1
 #define CLOSE 0
 //TEST1
+//TEST2
 
 /*
  * I dont know why this even works first try flawlesly lol, ts dumb ahh X11 api
