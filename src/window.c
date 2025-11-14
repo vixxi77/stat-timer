@@ -2,13 +2,13 @@
 #include "../include/window.h"
 #include <stdio.h>
 #include <SDL2/SDL_ttf.h>
+#include <curses.h>
+
 
 #define WIDTH 300
 #define HEIGHT 100
 #define HORIZONTAL_POS 1618
 #define VERTICAL_POS 10
-#define true 1
-#define false 0
 //1618 5 300 100
 
 SDL_Window *window;
@@ -42,10 +42,10 @@ void initRenderer(){
 
 
 void actionWindow(int actionId){
-	static int _called;
+	static bool  _not_first_call = false;
 	switch (actionId){
 		case 0:
-			if(window_open == 0 && _called > 0) break;
+			if(window_open == 0 && _not_first_call) break;
 			closeWindow();	
 			window_open = 0;
 			break;
@@ -55,8 +55,7 @@ void actionWindow(int actionId){
 			window_open = 1;
 			break;
 	}
-	
-	if(_called == 0) _called++;
+	_not_first_call = true;
 }
 
 void openWindow(){
