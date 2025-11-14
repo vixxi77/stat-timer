@@ -7,6 +7,8 @@
 #define HEIGHT 100
 #define HORIZONTAL_POS 1618
 #define VERTICAL_POS 10
+#define true 1
+#define false 0
 //1618 5 300 100
 
 SDL_Window *window;
@@ -53,7 +55,8 @@ void actionWindow(int actionId){
 			window_open = 1;
 			break;
 	}
-	_called++;
+	
+	if(_called == 0) _called++;
 }
 
 void openWindow(){
