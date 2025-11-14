@@ -1,9 +1,8 @@
 #include <time.h>
-#include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "window.h"
-#include "timer.h"
+#include "../include/window.h"
+#include "../include/timer.h"
 //#include "vitaut1.h"
 //#include <pthread.h>
 

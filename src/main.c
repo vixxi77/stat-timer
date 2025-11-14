@@ -1,10 +1,10 @@
 #include <stdio.h>
-#include "timer.h"
+#include "../include/timer.h"
 #include <pthread.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
-#include "window.h"
+#include "../include/window.h"
 
 #define ACTIVITY_ONE "Programming C"
 #define ACTIVITY_TWO "Loonix Work"
@@ -18,22 +18,22 @@
  * anyways i wouldnt count on this being consistent
  */
 
-Display*    display;
-Window      root;
-XEvent      event;
+static Display*    display;
+static Window      root;
+static XEvent      event;
 
-unsigned int    modifiers;
-int             keycode_open_window;     
-int 		keycode_first_activity;	
-int 		keycode_second_activity;	
-int 		keycode_third_activity;	
-int		keycode_terminate_program;
-Window          grab_window;  
-Bool            owner_events; 
-int             pointer_mode; 
-int             keyboard_mode;
+static unsigned int    	modifiers;
+static int             	keycode_open_window;     
+static int 		keycode_first_activity;	
+static int 		keycode_second_activity;	
+static int 		keycode_third_activity;	
+static int		keycode_terminate_program;
+static Window          	grab_window;  
+static Bool            	owner_events; 
+static int             	pointer_mode; 
+static int             	keyboard_mode;
 
-void initXKeys(){
+static void initXKeys(){
 
 	display                     = XOpenDisplay(0);
 	root                        = DefaultRootWindow(display);
@@ -64,6 +64,8 @@ void initXKeys(){
 
 void main(){
 	int toggle = 0;	
+	int *p = &toggle;
+
 	int running = 1;
 	initXKeys();
 
@@ -87,15 +89,15 @@ void main(){
 			if(event.type == KeyPress && (event.xkey.state & modifiers) == modifiers){
 				switch(symbol){
 					case XK_W: 
-						if(toggle == 0){
+						if(*p == 0){
 							 printf("Close window \n");
 							 actionWindow(CLOSE);
-							 toggle = 1;
+							 *p = 1;
 							 break;
 						}else{
 							printf("Open window \n");
 							actionWindow(OPEN);
-							toggle = 0;
+							*p = 0;
 							break;
 						}
 					case XK_F1:

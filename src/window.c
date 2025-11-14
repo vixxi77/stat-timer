@@ -1,5 +1,5 @@
 #include <SDL2/SDL.h>
-#include "window.h"
+#include "../include/window.h"
 #include <stdio.h>
 #include <SDL2/SDL_ttf.h>
 
@@ -40,9 +40,10 @@ void initRenderer(){
 
 
 void actionWindow(int actionId){
+	static int _called;
 	switch (actionId){
 		case 0:
-			if(window_open == 0) break;
+			if(window_open == 0 && _called > 0) break;
 			closeWindow();	
 			window_open = 0;
 			break;
@@ -52,6 +53,7 @@ void actionWindow(int actionId){
 			window_open = 1;
 			break;
 	}
+	_called++;
 }
 
 void openWindow(){
@@ -82,7 +84,7 @@ void renderSDLActivity(){
 	if(activity == NULL){
 		activity = "NO ACTIVITY";
 		MAIN_COLOR = Red;
-	}else if(activity != "NO ACTIVITY" && activity != NULL){
+	}else if(strcmp(activity, "NO ACTIVITY") == 0 && activity != NULL){
 		MAIN_COLOR = White;
 	}
 
