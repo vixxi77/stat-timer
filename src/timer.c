@@ -16,14 +16,16 @@ int activityIds[MAX_ACTIVITIES];
 
 char buffer[12];
 
-static double getCurrentTime(){
+static double 
+getCurrentTime(){
 
 	struct timespec ts;
 	clock_gettime(CLOCK_MONOTONIC, &ts);
 	return ts.tv_sec + ts.tv_nsec / 1e9;
 };
 
-void startTimer(char *activityString, int activityId){
+void 
+startTimer(char *activityString, int activityId){
 	
 	if(timerRunning){
 		stopTimer();
@@ -40,7 +42,8 @@ void startTimer(char *activityString, int activityId){
 	printf("Activity: %s, started at: %s \n", current.activityName, asctime(localtime(&current.startStamp)));
 }
 
-void stopTimer(){
+void 
+stopTimer(){
 
 	if(!timerRunning) return;
 
@@ -55,7 +58,8 @@ void stopTimer(){
 	printf("Total time spent: %d \n", current.totalTime);
 }
 
-void updateTimer(){
+void 
+updateTimer(){
 	if(!timerRunning) return;
 
 	double now = getCurrentTime();
@@ -65,7 +69,8 @@ void updateTimer(){
 	
 }
 
-void renderTimer(){
+void 
+renderTimer(){
 
 	if(!timerRunning) return;
 
@@ -75,6 +80,7 @@ void renderTimer(){
 	
 }
 
-void saveTotalTime(){
+void 
+saveTotalTime(){
 	activityIds[current.id] = current.totalTime;
 }

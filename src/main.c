@@ -33,7 +33,8 @@ static Bool            	owner_events;
 static int             	pointer_mode; 
 static int             	keyboard_mode;
 
-static void initXKeys(){
+static void 
+initXKeys(){
 
 	display                     = XOpenDisplay(0);
 	root                        = DefaultRootWindow(display);
@@ -62,7 +63,7 @@ static void initXKeys(){
 	XSelectInput(display, root, KeyPressMask);
 };
 
-void main(){
+int main(){
 	int toggle = 0;	
 	int *p = &toggle;
 
@@ -128,11 +129,4 @@ void main(){
 	}
 	XCloseDisplay(display);
 }
-
-
-
-
-
-
-
 

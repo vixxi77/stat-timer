@@ -29,51 +29,58 @@ char *timer;
 
 int window_open = 0;
 
-void initWindow(){
+void 
+initWindow(){
 	SDL_Init(SDL_INIT_VIDEO);
 	window = SDL_CreateWindow("Timer", HORIZONTAL_POS, VERTICAL_POS, WIDTH, HEIGHT, 0);
 	//SDL_SetWindowBordered(window, SDL_FALSE);
 }
 
-void initRenderer(){
+void 
+initRenderer(){
 	renderer = SDL_CreateRenderer(window, -1, 0);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 }
 
 
-void actionWindow(int actionId){
+void 
+actionWindow(int actionId){
 	static bool  _not_first_call = false;
 	switch (actionId){
-		case 0:
-			if(window_open == 0 && _not_first_call) break;
-			closeWindow();	
-			window_open = 0;
-			break;
-		case 1:
-			if(window_open == 1) break ;
-			openWindow();
-			window_open = 1;
-			break;
+	case 0:
+		if(window_open == 0 && _not_first_call) break;
+		closeWindow();	
+		window_open = 0;
+		break;
+	case 1:
+		if(window_open == 1) break ;
+		openWindow();
+		window_open = 1;
+		break;
 	}
 	_not_first_call = true;
 }
 
-void openWindow(){
+void 
+openWindow(){
 	SDL_ShowWindow(window);
 }
 
-void closeWindow(){
+void 
+closeWindow(){
 	SDL_HideWindow(window);
 }
 
-void renderSDLWindow(){
+void 
+renderSDLWindow(){
 	SDL_RenderClear(renderer);
 	renderSDLActivity();
 	renderSDLTimer();
 	SDL_RenderPresent(renderer);
 }
 
-void initText(){
+void 
+initText(){
 	if(TTF_Init() == -1){
 	       	printf("ttf failure \n");
 	}else{
@@ -82,7 +89,8 @@ void initText(){
 	font = TTF_OpenFont("FSEX300.ttf", 15);
 }
 
-void renderSDLActivity(){
+void 
+renderSDLActivity(){
 	if(activity == NULL){
 		activity = "NO ACTIVITY";
 		MAIN_COLOR = Red;
@@ -102,7 +110,8 @@ void renderSDLActivity(){
 	SDL_FreeSurface(activity_surface);
 }
 
-void renderSDLTimer(){
+void 
+renderSDLTimer(){
 
 	timer_surface = TTF_RenderText_Solid(font, timer, MAIN_COLOR);
 	timer_texture = SDL_CreateTextureFromSurface(renderer, timer_surface);
@@ -116,10 +125,12 @@ void renderSDLTimer(){
 	SDL_FreeSurface(timer_surface);
 }
 
-void setSDLActivity(char *activityName){
+void 
+setSDLActivity(char *activityName){
 	activity = activityName;
 }
 
-void setSDLTimer(char *activityTimer){
+void 
+setSDLTimer(char *activityTimer){
 	timer = activityTimer;
 }
